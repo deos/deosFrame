@@ -1,0 +1,61 @@
+
+/* general */
+
+body {
+	width: 1000px;
+	margin: 30px auto;
+	border: 1px solid black;
+}
+
+table {
+	border-collapse: collapse;
+	margin: 10px 0px;
+}
+
+th {
+	font-weight: bold;
+	text-align: center;
+}
+
+th, td {
+	padding: 3px 5px;
+	border: 1px solid black;
+}
+
+
+/* structure */
+
+#navi, #subnavi {
+	overflow: auto;
+	padding: 10px;
+}
+
+#navi li, #subnavi li {
+	float: left;
+	border: 1px solid black;
+	border-left-style: none;
+}
+
+#navi li:first-child, #subnavi li:first-child {
+	border-left-style: solid;
+}
+
+#navi li a, #subnavi li a {
+	display: block;
+	padding: 5px 10px;
+	background-color: #EEE;
+	color: #000;
+	text-decoration: none;
+}
+
+#navi li a:hover, #subnavi li a:hover {
+	background-color: #AAA;
+}
+
+#navi li a.active, #subnavi li a.active {
+	background-color: #888;
+}
+
+#main {
+	padding: 10px;
+}

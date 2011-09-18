@@ -267,6 +267,15 @@ final class Router {
 	}
 	
 	/**
+	 * Get current route name
+	 * 
+	 * @return string
+	 */
+	public function getCurrentRoute(){
+		return $this->currentRoute;
+	}
+	
+	/**
 	 * Create a url
 	 * 
 	 * @param array   $params Parameter array

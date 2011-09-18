@@ -1,0 +1,1 @@
+this folders needs to be here for doctrine proxies, and doctrine has to be able to write in them (at least while you let doctrine create the proxies, on the server they are static)
