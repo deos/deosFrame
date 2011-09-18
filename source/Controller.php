@@ -42,10 +42,11 @@ abstract class Controller {
 	 * Class constructor
 	 * 
 	 * @param string     $action   Called action name
+	 * @param string     $format   Format type for the view
 	 * @param \Core\View $template View used as template
 	 */
-	public final function __construct($action, View $template){
-		$this->view = new View('/sites/'.strtolower(str_replace(array('Controller/', 'Controller'), '', str_replace('\\', '/', get_class($this)))).'/'.$action.'.html.php');
+	public final function __construct($action, $format = 'html', View $template = null){
+		$this->view = new View('/sites/'.strtolower(str_replace(array('Controller/', 'Controller'), '', str_replace('\\', '/', get_class($this)))).'/'.$action.'.'.$format.'.php');
 		$this->request = new Request();
 		$this->template = $template;
 		

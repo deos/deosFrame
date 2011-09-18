@@ -75,7 +75,17 @@ final class Router {
 	public function __construct(array $routes = array()){
 		//get current url		
 		$path = parse_url(preg_replace('/^(.*?)'.str_replace('/', '\/', URL_PREFIX).'/', '', $_SERVER['REQUEST_URI']));
-		$this->path = $path['path'];
+		$path = $path['path'];
+
+		//lets get the format extension, default to html
+		$info = pathinfo($path);
+		if(isset($info['extension'])){
+			$this->params['format'] = (in_array($info['extension'], array('html', 'htm', 'php')) ? 'html' : $info['extension']);
+			$path = substr($path, 0, -1*strlen($info['extension'])-1);
+		}
+		else{
+			$this->params['format'] = 'html';
+		}
 		
 		//set default route if it is not there
 		if(!array_key_exists('default', $routes)){
@@ -84,6 +94,7 @@ final class Router {
 			);
 		}
 		
+		$this->path = $path;
 		$this->routes = $routes;
 	}
 	
@@ -156,10 +167,6 @@ final class Router {
 			$this->params = $this->routes[$this->currentRoute]['defaults'] + $this->params;
 		}
 		
-		//check for the format
-		$lastPathPart = end($pathParts);
-		$this->params['format'] = (stristr($lastPathPart, '.') ? str_replace('php', 'html', substr(stristr($lastPathPart, '.'), 1)) : 'html');
-		
 		//get the information from the path
 		foreach($patternParts as $i=>$part){
 			if(!$part OR $part[0]!=':'){
@@ -168,7 +175,7 @@ final class Router {
 
 			$part = substr($part, 1);
 			$pathParts[$i] = (isset($pathParts[$i]) ? urldecode($pathParts[$i]) : null);
-			$pathPart = ($pathParts[$i] ? (stristr($pathParts[$i], '.', true) ? : $pathParts[$i]) : $this->defaults[$part]);
+			$pathPart = ($pathParts[$i] ? $pathParts[$i] : $this->defaults[$part]);
 
 			if(($params = strstr($pathPart, '?'))){
 				$pathPart = str_replace($params, '', $pathPart);
@@ -195,7 +202,7 @@ final class Router {
 			
 			$template = new View('/template/template.html.php');
 			
-			$this->controller = new $controllerName($this->params['action'], $template);
+			$this->controller = new $controllerName($this->params['action'], $this->params['format'], $template);
 			
 			Registry::set('controller', $this->controller);
 			
@@ -328,7 +335,7 @@ final class Router {
 		$url = URL_PREFIX.'/'.implode('/', array_reverse($path)).(count($path)==0 ? 'index' : '').'.'.$params['format'];
 		
 		//this preserved params dont go in the url
-		unset($params['format'], $params['prefix']);
+		unset($params['module'], $params['controller'], $params['action'], $params['format'], $params['prefix']);
 		
 		if(count($params)>0){			
 			$url .= '?'.http_build_query($params);

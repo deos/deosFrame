@@ -45,23 +45,23 @@ final class Request {
 		return Registry::get('router')->get($name);
 	}
 	
-    /**
-     * check if a post form got submitted
-     * 
-     * @return boolean
-     */
-    public function isPost() {
-        return (isset($_SERVER['REQUEST_METHOD']) AND $_SERVER['REQUEST_METHOD']=='POST');
-    } 	
+	/**
+	 * check if a post form got submitted
+	 * 
+	 * @return boolean
+	 */
+	public function isPost() {
+		return (isset($_SERVER['REQUEST_METHOD']) AND $_SERVER['REQUEST_METHOD']=='POST');
+	} 	
 	
 	/**
 	 * Check if the current call is a ajax call
 	 * 
 	 * @return boolean
 	 */
-    public function isAjax() {
-        return (isset($_SERVER['HTTP_X_REQUESTED_WITH']) AND $_SERVER['HTTP_X_REQUESTED_WITH']=='XMLHttpRequest');
-    }
+	public function isAjax() {
+		return (isset($_SERVER['HTTP_X_REQUESTED_WITH']) AND $_SERVER['HTTP_X_REQUESTED_WITH']=='XMLHttpRequest');
+	}
 
 }
 
